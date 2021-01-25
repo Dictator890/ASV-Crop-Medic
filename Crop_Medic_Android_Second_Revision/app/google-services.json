@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "337823214589",
+    "project_id": "cropmedic-15c71",
+    "storage_bucket": "cropmedic-15c71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337823214589:android:bff0af998067b6733d0794",
+        "android_client_info": {
+          "package_name": "com.example.CropMedic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337823214589-2jp89qs5f5g2qmf3s55gg4lgo7j3jgap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByqOJDj9ID_webQ4KI5YhjpNlpP4Bw6ws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337823214589-2jp89qs5f5g2qmf3s55gg4lgo7j3jgap.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
