@@ -1,61 +1,75 @@
 package com.example.CropMedic
 
-import android.net.Uri
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-
 import android.widget.TextView
-import com.example.CropMedic.ImageProcessor.CropMedicImageProcessor
-import com.example.CropMedic.Utils.AppConstants
+import com.example.CropMedic.Network.Database
+import com.example.CropMedic.Utils.ActivityUtils
+import com.example.CropMedic.Utils.DetailsDAO
+import kotlinx.android.synthetic.main.activity_result.*
 
 class ResultActivity : AppCompatActivity() {
 
-    private lateinit var resulttextcomponent:TextView
-    private  lateinit var uri:Uri
-    private lateinit var imageProcessor: CropMedicImageProcessor
-
+    private  var label:String? = null
+   private lateinit var database:Database
     companion object{
         private const val TAG="ResultActivity"
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onCreate(savedInstanceState: Bundle?)  {
+          title="Result"
+          database=Database(applicationContext)
+          super.onCreate(savedInstanceState)
+          setContentView(R.layout.activity_result)
+
+         try{
+             label= intent.getStringExtra("Label")
+             label?.let { processtoSucess(it) }
+         }catch (e:Exception){
+             Log.e(TAG,e.toString())
+             ActivityUtils.triggerErrorActivity(this)
+             finish()
+         }
 
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        retriveData()
-        setContentView(R.layout.activity_result)
-        resulttextcomponent = findViewById(R.id.resulttext)
-        imageProcessor= CropMedicImageProcessor.getImageProcessor(uri,this,getString(R.string.relativeModelPath))
-        if (uri == null){
-            resulttextcomponent.visibility= View.VISIBLE
-            Log.d(TAG,"Null URI")
-        }
-        else
-        {
-            Log.d(TAG,"Non Null URI")
-              val value:CropMedicImageProcessor.ImageProcessResult= imageProcessor.processImageModelBundling()
-            Log.d(TAG,"Hello")
-            when(value){
-                is CropMedicImageProcessor.ImageProcessResult.Success->{Log.d(TAG,"Sucess")
-                    val data=value.data.data.toString()
-                    resulttextcomponent.text=getString(R.string.SucessMessage,data)
-                Log.d(TAG,data)
-                }
-                is CropMedicImageProcessor.ImageProcessResult.Error->{Log.e(TAG,"Fail")
-                    val data=value.exception.data.toString()
-                    resulttextcomponent.text=getString(R.string.ErrorMessage,data)
-                    Log.d(TAG,data)}
+    private fun processtoSucess(name:String){
+        database.getOfflineInformation(name,{detailsDAO ->setDetailstoGUI(detailsDAO)},
+            {exception ->
+            ActivityUtils.triggerErrorActivity(this)
+            Log.d(TAG,exception.toString()) })
+    }
+
+    private fun setDetailstoGUI(detailsDAO : DetailsDAO){
+        categoryData.text=detailsDAO.category
+        causeData.text=detailsDAO.cause
+        medicinesData.text=detailsDAO.recommendedMedicines
+        addArraytoGUI(detailsDAO.symptoms,symptomsData)
+        addArraytoGUI(detailsDAO.precautions,precautionsData)
+        addArraytoGUI(detailsDAO.futureSteps,futurestepsData)
+        imageDisplay.setImageBitmap(detailsDAO.defaultPicture)
+
+    }
+    @SuppressLint("SetTextI18n")
+    private fun addArraytoGUI(array:ArrayList<String> , element:TextView){
+        if(array.isNotEmpty()){
+            if(array.size == 1){
+                element.text="${array.get(0)}"
             }
-
+            else
+            {
+                var counter=1
+                element.text=""
+                array.forEach {
+                    element.text= element.text.toString() +"$counter : $it \n"
+                    counter++
+                }
+            }
         }
 
+
     }
-    private fun retriveData(){
-        val intent=intent
-        uri= Uri.parse(intent.getStringExtra(AppConstants.TRANSFER_DATA).toString())
-    }
+
+
 }

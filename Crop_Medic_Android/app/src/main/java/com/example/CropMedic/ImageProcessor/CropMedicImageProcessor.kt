@@ -1,67 +1,156 @@
 package com.example.CropMedic.ImageProcessor
 
+import android.content.ContentResolver
 import android.content.Context
-import android.graphics.ImageDecoder
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.util.Log
-import com.example.CropMedic.Utils.Codes
-import com.example.CropMedic.Utils.ResultFormat
-import com.example.CropMedic.ml.ModelMininet
-import org.tensorflow.lite.support.image.TensorImage
-import java.lang.Exception
+import com.example.CropMedic.Utils.*
+import com.google.firebase.ml.common.modeldownload.FirebaseModelManager
+import com.google.firebase.ml.custom.FirebaseCustomRemoteModel
+import org.tensorflow.lite.Interpreter
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.nio.FloatBuffer
+import kotlin.Exception
 
-
-class CropMedicImageProcessor(file:Uri,ctx:Context,modelPath:String)  {
-var file_URI=file
-
-var call_context:Context?=ctx
-private val modelPath=modelPath
-
+/**
+ * @param fileUri Uri The Uri of the image
+ * @param callContext Context The context of the activity invoking the object
+ * @param firebaseModelName String The name of the firebase model on the Firebase Server
+ * @param contentResolver ContentResolver The content resolver of the calling activity
+ * @param labelPathname String The name of the label file in the assets
+ * @param bundledmodelName String The name of the locally bundled model in the assets
+ *
+ * **/
+class CropMedicImageProcessor(private val fileUri:Uri ,
+                              private val callContext:Context ,
+                              private val modelName:String ,
+                              private val contentResolver:ContentResolver ,
+                              private val labelPathname:String
+                              )
+{
     companion object{
-        public fun getImageProcessor(file_URI:Uri,context: Context,modelPath:String):CropMedicImageProcessor {
+         fun getImageProcessor(file_URI:Uri,context: Context,firebaseModelName_:String,contentResolver : ContentResolver,labelpathName:String):CropMedicImageProcessor {
             if(imageProcessorObject == null){
-                imageProcessorObject= CropMedicImageProcessor(file_URI,context,modelPath)
+                return CropMedicImageProcessor(file_URI,context,firebaseModelName_,contentResolver,labelpathName)
             }
-
-
                 return imageProcessorObject as CropMedicImageProcessor
-
-
         }
         private val TAG="ImageProcessor"
-        private  var imageProcessorObject:CropMedicImageProcessor?=null
+        private var imageProcessorObject: CropMedicImageProcessor?=null
+        private val outputSize=AppConstants.OUTPUT_EMBEDDINGS*java.lang.Float.SIZE/java.lang.Byte.SIZE
     }
 
 
 
-    fun processImageModelBundling():ImageProcessResult{
-    if(call_context !=null){
-        val model=ModelMininet.newInstance(call_context!!)
-        Log.d(TAG,"Encoded PAth : "+file_URI.encodedPath)
-        Log.d(TAG,"Is absolute:"+file_URI.isAbsolute)
-val bitmapTensorImage=if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.P){
+    fun processImage(success : (ImageProcessResult.Success)->Unit,failure : (ImageProcessResult.Error)->Unit){
 
-    TensorImage.fromBitmap(ImageDecoder.decodeBitmap(ImageDecoder.createSource(call_context !!.contentResolver,file_URI)))
-}else{
-    TensorImage.fromBitmap(MediaStore.Images.Media.getBitmap(call_context !!.contentResolver,file_URI))
-}
+        val remoteModel=FirebaseCustomRemoteModel.Builder(modelName).build()
+      try{
+            FirebaseModelManager.getInstance().getLatestModelFile(remoteModel).addOnCompleteListener {
+              val model=it.result
+                var counter=0
+              if(model!= null)
+              {
+                  Log.d(TAG,"Processing using firebase model")
+                  val interpreter=Interpreter(model)
+                  val imageBitmap= Bitmap.createScaledBitmap(BitmapFactory.decodeFileDescriptor(contentResolver.openFileDescriptor(fileUri,"r")?.fileDescriptor),AppConstants.IMAGE_WIDTH,AppConstants.IMAGE_HEIGHT,true)
+                 // Log.d(TAG,"Image bitmap scaled")
+                 // Log.d(TAG,"Width: " + imageBitmap.width +"\n Height: "+imageBitmap.height+"ByteCount:"+imageBitmap.byteCount)
+                 // Log.d(TAG,"Image Bitmap Config:"+imageBitmap.config+"Pixel value at 20:"+imageBitmap.getPixel(20,20))
 
-       val output= model.process(bitmapTensorImage)
-        val result=output.probabilityAsCategoryList
-        Log.d(TAG,"Sucess in ImageProcessor")
-        model.close()
-        return ImageProcessResult.Success(ResultFormat(Codes.SUCCESS,result))
+                  val inputImage=ByteBuffer.allocateDirect(AppConstants.IMAGE_WIDTH*AppConstants.IMAGE_HEIGHT*3*4).order(ByteOrder.nativeOrder())
+                 // Log.d(TAG,"Input image buffer allocated \n Memory is :" +inputImage.capacity())
+                  for(ycord in 0 until AppConstants.IMAGE_WIDTH){
+                      for(xcord in 0 until AppConstants.IMAGE_HEIGHT){
+                          val pixel=imageBitmap.getPixel(xcord,ycord)
+                          val rf=Color.red(pixel)/255f
+                          val gf=Color.green(pixel)/255f
+                          val bf=Color.blue(pixel)/255f
 
-           }
-        Log.e(TAG,"Failure in ImageProcessor")
+                          inputImage.putFloat(rf)
+                          inputImage.putFloat(gf)
+                          inputImage.putFloat(bf)
+                      }
+                  }
+                  imageBitmap.recycle()
+                 // Log.d(TAG,"Image bitmap recycled")
+                  val modelOutput=ByteBuffer.allocateDirect(outputSize).order(ByteOrder.nativeOrder())
+                  interpreter.run(inputImage,modelOutput)
+                  Log.d(TAG,"Model is running now")
+                  modelOutput.rewind()
+                  val probs=modelOutput.asFloatBuffer()
+                  Log.d(TAG,"Got probabilities \n $probs")
+                  success(ImageProcessResult.Success(probs))
 
-       return ImageProcessResult.Error(ResultFormat(Codes.FAILURE,Exception("Call context not found")))
+              }
+              //The firebase model was unable to be fetched so the bundled model is being used
+              else
+              {
+                  useBundledModel(success,failure)
+              }
+          }
+
+      }
+      catch (ex:Exception){
+         failure(ImageProcessResult.Error(ex))
+      }
+
+    }
+
+    private fun useBundledModel(success : (ImageProcessResult.Success) -> Any? , failure : (ImageProcessResult.Error) -> Any?)
+    {
+        Log.d(TAG,"OutputSize : $outputSize")
+        Log.d(TAG,"Processing using  Asset Bundled Model")
+        try{
+            val bundledModel=callContext.assets.open(modelName+".tflite").readBytes()
+            val modelBuffer=ByteBuffer.allocateDirect(bundledModel.size).order(ByteOrder.nativeOrder())
+            modelBuffer.put(bundledModel)
+            val interpreter=Interpreter(modelBuffer)
+
+            val imageBitmap= Bitmap.createScaledBitmap(BitmapFactory.decodeFileDescriptor(contentResolver.openFileDescriptor(fileUri,"r")?.fileDescriptor),256,256,true)
+           // Log.d(TAG,"Image bitmap scaled")
+            //Log.d(TAG,"Width: " + imageBitmap.width +"\n Height: "+imageBitmap.height+"ByteCount:"+imageBitmap.byteCount)
+            val inputImage=ByteBuffer.allocateDirect(AppConstants.IMAGE_WIDTH*AppConstants.IMAGE_HEIGHT*3*4).order(ByteOrder.nativeOrder())
+            // Log.d(TAG,"Input image buffer allocated \n Memory is :" +inputImage.capacity())
+            for(ycord in 0 until AppConstants.IMAGE_WIDTH){
+                for(xcord in 0 until AppConstants.IMAGE_HEIGHT){
+                    val pixel=imageBitmap.getPixel(xcord,ycord)
+                    val rf=Color.red(pixel)/255f
+                    val gf=Color.green(pixel)/255f
+                    val bf=Color.blue(pixel)/255f
+
+                    inputImage.putFloat(rf)
+                    inputImage.putFloat(gf)
+                    inputImage.putFloat(bf)
+                }
+            }
+            imageBitmap.recycle()
+           // Log.d(TAG,"Image bitmap recycled")
+            val modelOutput=ByteBuffer.allocateDirect(outputSize).order(ByteOrder.nativeOrder())
+
+            interpreter.run(inputImage,modelOutput)
+            Log.d(TAG,"Model is running now")
+            modelOutput.rewind()
+            val probs=modelOutput.asFloatBuffer()
+            Log.d(TAG,"Got probabilities \n $probs")
+            success(ImageProcessResult.Success(probs))
+        }
+        catch (ex:Exception){
+            failure(ImageProcessResult.Error(ex))
+        }
+
+    }
+
+
 
     }
 sealed class ImageProcessResult{
-    data class Success(val data : ResultFormat):ImageProcessResult()
-    data class Error(val exception: ResultFormat):ImageProcessResult()
+    data class Success(val data : FloatBuffer):ImageProcessResult()
+    data class Error(val exception: java.lang.Exception):ImageProcessResult()
 }
-    }

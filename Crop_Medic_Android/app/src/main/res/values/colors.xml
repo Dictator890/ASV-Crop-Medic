@@ -2,8 +2,10 @@
 <resources>
     <color name="PrimaryBackground">#141414</color>
     <color name="primaryGreen">#4CAF50</color>
-    <color name="primaryWhite">#FFFFFF</color>
-    <color name="primaryRed">#EF5350</color>
+    <color name="primaryWhite">#FAFAFA</color>
+    <color name="primaryAlert">#ef5350</color>
+    <color name="primarynonActiveText">#E0E0E0</color>
 
-    <color name="SecondaryBackground">#212121</color>
+    <color name="SecondaryBackground">#282828</color>
+    <color name="shadowColor">#000111</color>
 </resources>

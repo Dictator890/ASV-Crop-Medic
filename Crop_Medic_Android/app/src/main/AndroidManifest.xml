@@ -15,11 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ModelDownloadActivity"></activity>
+        <activity android:name=".NoResultActivity"></activity>
+        <activity android:name=".ProcessingActivity" />
+        <activity android:name=".ErrorActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ModelDownloadActivity" />
         <activity android:name=".ResultActivity" />
         <activity android:name=".FileChooserActivity.FileChooserActivity" />
         <activity android:name=".CameraUsage.CameraActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

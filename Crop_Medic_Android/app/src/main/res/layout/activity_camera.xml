@@ -63,21 +63,22 @@
 
         app:layout_constraintGuide_percent="0.98" />
 
-    <Button
-        android:id="@+id/Capture"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/main_screen_button_background"
-        android:textColor="@color/primaryWhite"
-        android:textSize="15sp"
-
-        app:layout_constraintBottom_toTopOf="@+id/bottomguideline"
-        app:layout_constraintEnd_toStartOf="@+id/thirdguideline"
-        app:layout_constraintStart_toStartOf="@+id/secondguideline"
-        app:layout_constraintTop_toTopOf="@+id/buttonguideline" />
 
     <androidx.camera.view.PreviewView
         android:id="@+id/cameraPreviewSurface"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <ImageButton
+        android:elevation="10dp"
+        android:outlineSpotShadowColor="@color/shadowColor"
+        android:id="@+id/Capture"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/roundbutton"
+        android:src="@drawable/camera_icon"
+        app:layout_constraintBottom_toTopOf="@+id/bottomguideline"
+        app:layout_constraintEnd_toStartOf="@+id/thirdguideline"
+        app:layout_constraintStart_toStartOf="@+id/secondguideline"
+        app:layout_constraintTop_toTopOf="@+id/buttonguideline" />
 </androidx.constraintlayout.widget.ConstraintLayout>

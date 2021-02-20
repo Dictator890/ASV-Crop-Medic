@@ -4,17 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.CropMedic.R
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.view.MotionEvent
-import android.view.Window
-import android.view.WindowInsets
-import android.view.WindowManager
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -22,6 +19,7 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.example.CropMedic.Utils.ActivityUtils
 import com.example.CropMedic.Utils.AppConstants
 import com.example.CropMedic.Utils.GenerateTransferIntent
 import com.google.common.util.concurrent.ListenableFuture
@@ -36,7 +34,7 @@ import java.util.concurrent.Executors
 class CameraActivity : AppCompatActivity() {
     companion object{
         private val requiredPermissionsforCameraActivity= arrayOf(Manifest.permission.CAMERA)  //Permission Array consisting of all the permission
-        private val TAG="CameraActivity"         // TAG required for Logging
+        private const val TAG="CameraActivity"         // TAG required for Logging
     }
     private lateinit var imagecapture:ImageCapture      //When the image is captured using CameraX it is generated as ImageCapture Object
     private lateinit var cameraProvider: ProcessCameraProvider //It provides the camera access
@@ -45,25 +43,17 @@ class CameraActivity : AppCompatActivity() {
     private  lateinit var cameraProviderInstance:ListenableFuture<ProcessCameraProvider>  //This listenablefuture will generate the Camera Access Provider in the Future when Camera is Avaliable
     private  lateinit  var previewSurface:Preview                                          //A surface to see the preview of Camera
     private lateinit var previewViewElement : PreviewView                     // The preview view element on the layout
-
+    private lateinit var captureButton : ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        supportActionBar?.hide()
-        @Suppress("DEPRECATION")
-        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.R){
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        }
-        else
-        {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
+        ActivityUtils.hideActionBar(this)
         setContentView(R.layout.activity_camera) // Display the layout
-
         previewViewElement=findViewById(R.id.cameraPreviewSurface)
+        captureButton=findViewById<ImageButton>(R.id.Capture)
+
+        captureButton.setOnClickListener {
+            CaptureImage(imagecapture)
+        }
         if (allPermissionsGranted()){
             requestSuccess()    // If all permissions are granted execute the next functions
         }
@@ -92,12 +82,31 @@ class CameraActivity : AppCompatActivity() {
             if(allPermissionsGranted()){
                requestSuccess()      //All permissions are granted
             }
+            else{
+                requestFailure(captureButton)
+
+            }
         }
     }
+    //Carry out operations when all permissions are given
+    private fun requestSuccess()
+    {
+        initializeCamera()
+        CameraBinder(cameraProviderInstance,cameraProvider,previewSurface,cameraNumber,this,this,imagecapture)
+    }
+    //Disable button when request does not succeed
+  @SuppressLint("UseCompatLoadingForDrawables")
+  private fun requestFailure(button:ImageButton){
+      button.setOnClickListener(null)
+      button.setImageResource(R.drawable.camera_icon_disabled)
+  }
 
     override fun onDestroy() {
         super.onDestroy()
-        cameraExecutor.shutdownNow()  //Shutdown the Camera Stream after this activity is closed
+        if(this::cameraExecutor.isInitialized)
+        {
+            cameraExecutor.shutdownNow()  //Shutdown the Camera Stream after this activity is closed
+        }
     }
 
     //Intializes the objects required by the Camera like the cameraprovider,cameraExecutor
@@ -127,17 +136,6 @@ class CameraActivity : AppCompatActivity() {
                 }
         },ContextCompat.getMainExecutor(currentContext))
     }
-    //Carry out operations when all permissions are given
-    private fun requestSuccess(){
-        setContentView(R.layout.activity_camera)
-        initializeCamera()
-        CameraBinder(cameraProviderInstance,cameraProvider,previewSurface,cameraNumber,this,this,imagecapture)
-        val click=findViewById<Button>(R.id.Capture)
-        click.setOnClickListener {
-            CaptureImage(imagecapture)
-        }
-    }
-
 
 //This function returns the application directory for  storage of the clicked picture
   private fun getAppDir(): File? {
@@ -166,15 +164,15 @@ class CameraActivity : AppCompatActivity() {
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 val savedUri=Uri.fromFile(photoFile)
                 setResult(Activity.RESULT_OK, GenerateTransferIntent.generateStringIntent(AppConstants.INTENT_CALL,savedUri.toString()))
-
                 finish()
             }
         })
     }
     //Camera utilities to add tap to focus
-    private fun cameraUtilities(cameraProvider:Camera,viewSurface:PreviewView){
+    @SuppressLint("ClickableViewAccessibility")
+    private fun cameraUtilities(cameraProvider:Camera , viewSurface:PreviewView){
         val cameraControl=cameraProvider.cameraControl
-        viewSurface.setOnTouchListener { v, event ->
+        viewSurface.setOnTouchListener { _, event ->
             when(event.action){
                 MotionEvent.ACTION_DOWN->{
                     return@setOnTouchListener true

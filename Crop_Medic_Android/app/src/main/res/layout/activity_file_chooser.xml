@@ -11,54 +11,93 @@
         android:id="@+id/ImageSurface"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="@color/SecondaryBackground"
-        app:layout_constraintBottom_toTopOf="@+id/ChooseAnotherFileBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:background="@drawable/imagebackground"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/imagebottomguideline"
+        app:layout_constraintEnd_toStartOf="@+id/rightguideline"
+        app:layout_constraintStart_toStartOf="@+id/leftguideline"
+        app:layout_constraintTop_toTopOf="@+id/topguideline" />
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
+    <ImageButton
         android:id="@+id/ChooseAnotherFileBtn"
-        android:layout_width="189dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="@color/primaryRed"
-        android:text="Choose Another File"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/incorrectbuttonbackground"
+        android:src="@drawable/clear_32"
+        app:layout_constraintBottom_toTopOf="@+id/bottomguideline"
         app:layout_constraintEnd_toStartOf="@+id/OKButton"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/leftsecondary"
+        app:layout_constraintTop_toTopOf="@+id/buttonguideline" />
 
-    <Button
+    <ImageButton
         android:id="@+id/OKButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="@color/primaryGreen"
-        android:text="OK"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ChooseAnotherFileBtn" />
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/correctbuttonbackground"
+        android:src="@drawable/check_32"
+        app:layout_constraintBottom_toTopOf="@+id/bottomguideline"
+        app:layout_constraintEnd_toStartOf="@+id/rightsecondary"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ChooseAnotherFileBtn"
+        app:layout_constraintTop_toTopOf="@+id/buttonguideline"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/textView"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftguideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select an Image"
-        android:textColor="@color/primaryWhite"
-        app:layout_constraintBottom_toTopOf="@+id/ImageSurface"
-        app:layout_constraintEnd_toStartOf="@+id/ImageSurface"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/ImageSurface"
-        app:layout_constraintTop_toBottomOf="@+id/ImageSurface" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.02" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.98" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.02" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.98" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.88" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/imagebottomguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.83" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftsecondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.08" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightsecondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.92" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

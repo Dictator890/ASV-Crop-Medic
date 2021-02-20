@@ -8,10 +8,6 @@ class GenerateTransferIntent{
             return Intent().apply { putExtra(Name,data) }
 
         }
-        fun generateIntegerIntent(Name:String,data:Int):Intent{
-            return Intent().apply { putExtra(Name,data) }
-
-        }
         fun generateBooleanIntent(Name : String,data:Boolean):Intent{
             return Intent().apply { putExtra(Name,data) }
         }
