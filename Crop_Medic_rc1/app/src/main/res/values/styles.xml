@@ -1,0 +1,22 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#424242</item>
+        <item name="colorPrimaryDark">#212121</item>
+        <item name="colorAccent">#4CAF50</item>
+        <item name="android:textColor">#FAFAFA</item>
+       <item name="android:textColorPrimary">#fafafa</item>
+        <item name="android:background">#212121</item>
+        <item name="android:fontFamily">@font/quicksand</item>
+        <item name="titleTextColor">@color/primaryWhite</item>
+        <item name="actionBarStyle">@style/CustomTop</item>
+        <item name="android:actionBarStyle">@style/CustomTop</item>
+    </style>
+
+    <style name="CustomTop" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:textColor">#FAFAFA</item>
+        <item name="android:background">@color/blackPressed</item>
+    </style>
+
+</resources>

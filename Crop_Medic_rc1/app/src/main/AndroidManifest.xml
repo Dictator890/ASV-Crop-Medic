@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.CropMedic">
+
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/app_icon_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".FAQActivity"></activity>
+        <activity android:name=".How_does_it_work_activity" />
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".PlantChooserActivity" />
+        <activity android:name=".NoResultActivity" />
+        <activity android:name=".ProcessingActivity" />
+        <activity android:name=".ErrorActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ModelDownloadActivity" />
+        <activity android:name=".ResultActivity" />
+        <activity android:name=".FileChooserActivity.FileChooserActivity" />
+        <activity android:name=".CameraUsage.CameraActivity" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

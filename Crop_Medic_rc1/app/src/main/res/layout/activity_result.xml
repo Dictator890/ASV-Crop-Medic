@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ResultActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/imageDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/result"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="20dp"/>
+
+
+            <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_marginTop="10dp"
+                  android:layout_marginBottom="10dp"
+                  android:paddingTop="20dp"
+                  android:paddingBottom="20dp"
+                  android:paddingLeft="10dp"
+                  android:paddingRight="10dp"
+                  android:gravity="start"
+                  android:background="@drawable/card">
+      <TextView
+          android:id="@+id/nameheader"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Name"
+          android:gravity="top"
+          android:textSize="15sp"
+          android:background="@drawable/card"/>
+
+      <TextView
+          android:id="@+id/nameField"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Name"
+          android:layout_marginTop="10dp"
+          android:gravity="bottom"
+          android:textSize="25sp"
+          android:background="@drawable/card"/>
+
+  </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:gravity="start"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/card">
+        <TextView
+            android:id="@+id/categoryField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:gravity="top"
+            android:textSize="15sp"
+            android:background="@drawable/card"/>
+
+        <TextView
+            android:id="@+id/categoryData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="None"
+            android:layout_marginTop="10dp"
+            android:gravity="bottom"
+            android:textSize="25sp"
+            android:background="@drawable/card"/>
+    </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:gravity="start"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/card">
+
+        <TextView
+            android:id="@+id/symptomsfield"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Symptoms"
+            android:gravity="top"
+            android:textSize="15sp"
+            android:background="@drawable/card"/>
+        <TextView
+            android:id="@+id/symptomsData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="None"
+            android:gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:textSize="25sp"
+            android:background="@drawable/card"/>
+    </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:gravity="start"
+                android:background="@drawable/card"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/recommendedMedicinesField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Suggested Medicines"
+            android:gravity="top"
+            android:textSize="15sp"
+            android:background="@drawable/card"/>
+        <TextView
+            android:id="@+id/medicinesData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="None"
+            android:gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:textSize="25sp"
+            android:background="@drawable/card"/>
+    </LinearLayout>
+
+
+            <LinearLayout
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:gravity="start"
+                android:background="@drawable/card">
+        <TextView
+            android:id="@+id/precautionsField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precautions"
+            android:gravity="top"
+            android:textSize="15sp"
+            android:background="@drawable/card"/>
+        <TextView
+            android:id="@+id/precautionsData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="None"
+            android:gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:textSize="25sp"
+            android:background="@drawable/card"/>
+    </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:gravity="start"
+                android:background="@drawable/card"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+            <TextView
+                android:id="@+id/futurestepsField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Future Steps"
+                android:gravity="top"
+                android:textSize="15sp"
+                android:background="@drawable/card"/>
+
+            <TextView
+                android:id="@+id/futurestepsData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="None"
+                android:gravity="bottom"
+                android:layout_marginTop="10dp"
+                android:textSize="25sp"
+                android:background="@drawable/card"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+</ScrollView>

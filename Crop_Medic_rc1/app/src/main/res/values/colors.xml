@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primaryGreen">#4CAF50</color>
+    <color name="primaryWhite">#f5f5f5</color>
+    <color name="primaryAlert">#f44336</color>
+    <color name="primarynonActiveText">#9E9E9E</color>
+    <color name="primaryDullWhite">#E0E0E0</color>
+    <color name="blackPressed">#333333</color>
+    <color name="black">#141414</color>
+
+    <!--Red color gradient-->
+    <color name="redGradient2">#FF7171</color>
+    <color name="redGradient3">#FF3838</color>
+
+    <!--Green Color Gradient-->
+    <color name="greenGradient2">#59F89B</color>
+    <color name="greenGradient3">#4DFA7B</color>
+
+
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/historysingleitemview"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card"
+    android:layout_margin="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="40dp"
+    android:paddingBottom="20dp">
+
+    <TextView
+        android:id="@+id/historylabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:background="@color/blackPressed"
+        android:textColor="@color/primaryWhite"
+        android:text="Name" />
+
+    <TextView
+        android:id="@+id/historytimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blackPressed"
+        android:text="TimeStamp"
+        android:textSize="12sp"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/primaryWhite"
+        android:layout_gravity="end"/>
+</LinearLayout>

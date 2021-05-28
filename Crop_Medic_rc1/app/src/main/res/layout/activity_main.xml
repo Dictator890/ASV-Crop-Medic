@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        app:layout_constraintGuide_percent="0.03" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/midgu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        app:layout_constraintGuide_percent="0.97" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        app:layout_constraintGuide_percent="0.04" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/midguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.31" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/midguideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.32" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/buttonguideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.73" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.98" />
+
+    <ImageButton
+        android:id="@+id/CameraActivityTrigger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/activity_main_button"
+        android:contentDescription="Open Camera"
+        android:elevation="1dp"
+        android:padding="25dp"
+        android:shadowColor="#212121"
+        android:src="@drawable/camera_icon"
+        android:textColor="@color/primaryWhite"
+        app:layout_constraintBottom_toTopOf="@+id/bottomguideline"
+        app:layout_constraintEnd_toStartOf="@+id/midgu"
+        app:layout_constraintStart_toStartOf="@+id/leftguideline"
+        app:layout_constraintTop_toTopOf="@+id/buttonguideline" />
+
+    <ImageButton
+        android:id="@+id/FileChooserActivityTrigger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/activity_main_button"
+        android:contentDescription="Open system File Chooser"
+        android:elevation="1dp"
+        android:padding="25dp"
+        android:shadowColor="#212121"
+        android:src="@drawable/ic_round_insert_drive_file_24"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomguideline"
+        app:layout_constraintEnd_toStartOf="@+id/rightguideline"
+        app:layout_constraintStart_toStartOf="@+id/midgu"
+        app:layout_constraintTop_toTopOf="@+id/buttonguideline" />
+
+
+    <Button
+        android:id="@+id/howdoesitworkbutton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/activity_main_menu"
+        android:elevation="0dp"
+        android:text="How does this work"
+        app:layout_constraintBottom_toTopOf="@+id/faqbutton"
+        app:layout_constraintEnd_toStartOf="@+id/rightguideline"
+        app:layout_constraintStart_toStartOf="@+id/leftguideline"
+        app:layout_constraintTop_toTopOf="@+id/midguideline2" />
+
+    <Button
+        android:id="@+id/faqbutton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/activity_main_menu"
+        android:elevation="0dp"
+        android:text="FAQ"
+        app:layout_constraintBottom_toTopOf="@+id/mainactivityhistory"
+        app:layout_constraintTop_toBottomOf="@+id/howdoesitworkbutton"
+        app:layout_constraintEnd_toStartOf="@+id/rightguideline"
+        app:layout_constraintStart_toStartOf="@+id/leftguideline"
+         />
+
+    <Button
+        android:id="@+id/mainactivityhistory"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/activity_main_menu"
+        android:elevation="0dp"
+        android:text="History"
+        app:layout_constraintBottom_toTopOf="@+id/buttonguideline2"
+        app:layout_constraintTop_toBottomOf="@+id/faqbutton"
+        app:layout_constraintEnd_toStartOf="@+id/rightguideline"
+        app:layout_constraintStart_toStartOf="@+id/leftguideline" />
+
+    <ImageView
+        android:id="@+id/mainScreenLogo"
+        android:layout_width="260dp"
+        android:layout_height="184dp"
+        app:layout_constraintBottom_toTopOf="@+id/midguideline"
+        app:layout_constraintEnd_toStartOf="@+id/rightguideline"
+        app:layout_constraintStart_toStartOf="@+id/leftguideline"
+        app:layout_constraintTop_toTopOf="@+id/topguideline"
+        app:srcCompat="@drawable/app_icon_foreground"
+        android:scaleType="centerCrop"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
