@@ -8,10 +8,8 @@ of recognizing disease and will greatly reduce the time span for disease recogni
 which can act as a guide for solving the disease.
 
 # Neural Network
-The Neural Network is a Tensorflow and Keras based model trained on the plant leaf disease dataset.A custom Siamese Network was developed with the input being of shape 224x224 
+The Neural Network is a Tensorflow and Keras based model trained on the plant leaf disease dataset.A custom Siamese Network was developed with the input being of shape 224x224.The base network is MobileNetV2.
 and normalized between 0 and 1.The architecture of the neural network is as follows:-
-
-## Under Construction
 
 The model input must be normalized between 0 and 1.It has an output embeddings of 144.After the output the L2 Norm is calculated and if it is less than 0.5 then it is identified as matched.
 
