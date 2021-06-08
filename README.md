@@ -1,6 +1,5 @@
 # Crop-Medic
 
-## The name of the project is  CropMedic.
 This project aims at building an android application to detect crop diseases using Deep Learning and on device processing.The application scans the input image and 
 the DL model processess the image and fetches the information of the detected disease from the database.The main aim is not to replace the experts but to add a helping
 hand to them.The farmers or the user can scan the plant leaf by himself and can check which disease has affected the  plant.This is pretty useful as it reduces the loads
